@@ -1,0 +1,11 @@
+{
+  "values": [
+    "erythrium:erythrium_block",
+    "erythrium:erythrium_tiles_block",
+    "erythrium:reddish_deepslate_block",
+    "erythrium:reddish_deepslate_tiles_block",
+    "erythrium:erythrium_ore",
+    "erythrium:deepslate_erythrium_ore",
+    "erythrium:compacted_erythrium"
+  ]
+}

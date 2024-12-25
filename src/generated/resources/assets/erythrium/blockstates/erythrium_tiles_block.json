@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "erythrium:block/erythrium_tiles_block"
+    }
+  }
+}

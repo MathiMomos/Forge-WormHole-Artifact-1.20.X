@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "erythrium:block/reddish_deepslate_block"
+  }
+}
