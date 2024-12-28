@@ -1,6 +1,6 @@
 {
   "item.wormhole_artifact.wormhole_artifact": "Wormhole Artifact",
-  "text.wormhole_artifact.teleported": "§e%s has teleported to Steve",
+  "text.wormhole_artifact.teleported": "%s has teleported to %s",
 
   "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
 }

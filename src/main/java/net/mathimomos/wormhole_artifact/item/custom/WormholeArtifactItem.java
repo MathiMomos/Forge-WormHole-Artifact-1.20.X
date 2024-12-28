@@ -14,7 +14,8 @@ import net.minecraft.world.level.Level;
 
 public class WormholeArtifactItem extends Item {
 
-    private static final int COOLDOWN_TIME = 100;
+    private static final int COOLDOWN_TIME_TICKS = 100;
+    private static final String TARGET_PLAYER_NAME = "Dev";
 
     public WormholeArtifactItem(Properties pProperties) {
         super(pProperties);
@@ -25,12 +26,43 @@ public class WormholeArtifactItem extends Item {
         ItemStack itemstack = pPlayer.getItemInHand(pUsedHand);
 
         if (!pLevel.isClientSide() && pPlayer instanceof ServerPlayer) {
-            itemstack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
+            ServerPlayer pTargetPlayer = getTargetPlayer(pLevel);
 
-            String playerName = pPlayer.getDisplayName().getString();
-            Component message = Component.translatable("text.wormhole_artifact.teleported", playerName).setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
-            pLevel.players().forEach(player -> player.sendSystemMessage(message));
+            if (pTargetPlayer != null) {
+                tpPlayerToTarget(pPlayer, pTargetPlayer);
+
+                itemstack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
+
+                pPlayer.getCooldowns().addCooldown(this, COOLDOWN_TIME_TICKS);
+
+                sendTpMessage(pPlayer, pTargetPlayer, pLevel);
+            } else {
+                System.out.println("Couldn't find target player");
+            }
         }
         return InteractionResultHolder.success(itemstack);
+    }
+
+    private ServerPlayer getTargetPlayer(Level pLevel) {
+        return pLevel.getServer().getPlayerList().getPlayerByName(TARGET_PLAYER_NAME);
+    }
+
+    private void tpPlayerToTarget(Player pPlayer, ServerPlayer ptargetPlayer) {
+        double targetX = ptargetPlayer.getX();
+        double targetY = ptargetPlayer.getY();
+        double targetZ = ptargetPlayer.getZ();
+        pPlayer.teleportTo(targetX, targetY, targetZ);
+    }
+
+    private void sendTpMessage(Player pPlayer, ServerPlayer ptargetPlayer, Level pLevel) {
+        String playerName = pPlayer.getDisplayName().getString();
+        String targetName = ptargetPlayer.getDisplayName().getString();
+        Component message = Component.translatable("text.wormhole_artifact.teleported", playerName, targetName)
+                .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
+        pLevel.players().forEach(player -> player.sendSystemMessage(message));
+    }
+
+    private void wormholeArtifactTp() {
+
     }
 }
