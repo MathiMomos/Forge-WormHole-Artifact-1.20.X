@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "erythrium:block/erythrium_tiles_block"
-  }
-}
