@@ -11,11 +11,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-
 public class WormholeArtifactItem extends Item {
 
     private static final int COOLDOWN_TIME_TICKS = 100;
-    private static final String TARGET_PLAYER_NAME = "Dev";
 
     public WormholeArtifactItem(Properties pProperties) {
         super(pProperties);
@@ -23,46 +21,34 @@ public class WormholeArtifactItem extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        ItemStack itemstack = pPlayer.getItemInHand(pUsedHand);
+        ItemStack pStack = pPlayer.getItemInHand(pUsedHand);
 
-        if (!pLevel.isClientSide() && pPlayer instanceof ServerPlayer) {
-            ServerPlayer pTargetPlayer = getTargetPlayer(pLevel);
-
-            if (pTargetPlayer != null) {
-                tpPlayerToTarget(pPlayer, pTargetPlayer);
-
-                itemstack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pUsedHand));
-
-                pPlayer.getCooldowns().addCooldown(this, COOLDOWN_TIME_TICKS);
-
-                sendTpMessage(pPlayer, pTargetPlayer, pLevel);
-            } else {
-                System.out.println("Couldn't find target player");
-            }
+        if (!pLevel.isClientSide) {
         }
-        return InteractionResultHolder.success(itemstack);
+
+        return InteractionResultHolder.sidedSuccess(pStack, pLevel.isClientSide());
     }
 
-    private ServerPlayer getTargetPlayer(Level pLevel) {
-        return pLevel.getServer().getPlayerList().getPlayerByName(TARGET_PLAYER_NAME);
-    }
+    public void teleportToTarget(Player pPlayer, ServerPlayer pTargetPlayer, ItemStack pStack, Level pLevel) {
 
-    private void tpPlayerToTarget(Player pPlayer, ServerPlayer ptargetPlayer) {
-        double targetX = ptargetPlayer.getX();
-        double targetY = ptargetPlayer.getY();
-        double targetZ = ptargetPlayer.getZ();
-        pPlayer.teleportTo(targetX, targetY, targetZ);
-    }
+        if (pTargetPlayer != null && pTargetPlayer.isAlive()) {
 
-    private void sendTpMessage(Player pPlayer, ServerPlayer ptargetPlayer, Level pLevel) {
-        String playerName = pPlayer.getDisplayName().getString();
-        String targetName = ptargetPlayer.getDisplayName().getString();
-        Component message = Component.translatable("text.wormhole_artifact.teleported", playerName, targetName)
-                .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
-        pLevel.players().forEach(player -> player.sendSystemMessage(message));
-    }
 
-    private void wormholeArtifactTp() {
+            pPlayer.teleportTo(pTargetPlayer.getX(), pTargetPlayer.getY(), pTargetPlayer.getZ());
 
+
+            pStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(pPlayer.getUsedItemHand()));
+
+            pPlayer.getCooldowns().addCooldown(this, COOLDOWN_TIME_TICKS);
+
+
+            String playerName = pPlayer.getDisplayName().getString();
+            String targetName = pTargetPlayer.getDisplayName().getString();
+
+            Component message = Component.translatable("text.wormhole_artifact.teleported", playerName, targetName)
+                    .setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW));
+
+            pLevel.players().forEach(player -> player.sendSystemMessage(message));
+        }
     }
 }

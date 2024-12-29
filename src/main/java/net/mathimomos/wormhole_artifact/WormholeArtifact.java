@@ -1,7 +1,6 @@
 package net.mathimomos.wormhole_artifact;
 
 import com.mojang.logging.LogUtils;
-import net.mathimomos.wormhole_artifact.block.ModBlocks;
 import net.mathimomos.wormhole_artifact.item.ModCreativeModeTabs;
 import net.mathimomos.wormhole_artifact.item.ModItems;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -29,7 +28,6 @@ public class WormholeArtifact {
         ModCreativeModeTabs.register(modEventBus);
 
         ModItems.register(modEventBus);
-        ModBlocks.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
