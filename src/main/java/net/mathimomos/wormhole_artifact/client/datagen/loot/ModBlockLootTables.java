@@ -1,7 +1,6 @@
-package net.mathimomos.wormhole_artifact.datagen.loot;
+package net.mathimomos.wormhole_artifact.client.datagen.loot;
 
-import net.mathimomos.wormhole_artifact.block.ModBlocks;
-import net.mathimomos.wormhole_artifact.item.ModItems;
+import net.mathimomos.wormhole_artifact.client.block.ModBlocks;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;

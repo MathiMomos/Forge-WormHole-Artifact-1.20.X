@@ -1,6 +1,6 @@
-package net.mathimomos.wormhole_artifact.datagen;
+package net.mathimomos.wormhole_artifact.client.datagen;
 
-import net.mathimomos.wormhole_artifact.datagen.loot.ModBlockLootTables;
+import net.mathimomos.wormhole_artifact.client.datagen.loot.ModBlockLootTables;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;

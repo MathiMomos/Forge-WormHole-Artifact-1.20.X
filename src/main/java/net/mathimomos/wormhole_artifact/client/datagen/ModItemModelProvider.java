@@ -1,7 +1,7 @@
-package net.mathimomos.wormhole_artifact.datagen;
+package net.mathimomos.wormhole_artifact.client.datagen;
 
 import net.mathimomos.wormhole_artifact.WormholeArtifact;
-import net.mathimomos.wormhole_artifact.item.ModItems;
+import net.mathimomos.wormhole_artifact.server.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

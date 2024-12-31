@@ -1,6 +1,9 @@
 {
   "item.wormhole_artifact.wormhole_artifact": "Wormhole Artifact",
   "text.wormhole_artifact.teleported": "%s has teleported to %s",
+  "text.wormhole_artifact.player_not_found": "Player not found!",
 
-  "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
+
+
+"wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
 }

@@ -1,4 +1,4 @@
-package net.mathimomos.wormhole_artifact.util;
+package net.mathimomos.wormhole_artifact.client.util;
 
 import net.mathimomos.wormhole_artifact.WormholeArtifact;
 import net.minecraft.resources.ResourceLocation;

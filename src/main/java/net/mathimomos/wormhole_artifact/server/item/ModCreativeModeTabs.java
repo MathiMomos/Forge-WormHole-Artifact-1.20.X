@@ -1,7 +1,6 @@
-package net.mathimomos.wormhole_artifact.item;
+package net.mathimomos.wormhole_artifact.server.item;
 
 import net.mathimomos.wormhole_artifact.WormholeArtifact;
-import net.mathimomos.wormhole_artifact.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;

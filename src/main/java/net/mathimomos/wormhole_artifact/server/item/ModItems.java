@@ -1,7 +1,7 @@
-package net.mathimomos.wormhole_artifact.item;
+package net.mathimomos.wormhole_artifact.server.item;
 
 import net.mathimomos.wormhole_artifact.WormholeArtifact;
-import net.mathimomos.wormhole_artifact.item.custom.WormholeArtifactItem;
+import net.mathimomos.wormhole_artifact.server.item.custom.WormholeArtifactItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
