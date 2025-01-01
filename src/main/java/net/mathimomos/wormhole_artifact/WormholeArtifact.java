@@ -52,8 +52,16 @@ public class WormholeArtifact {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         int packetsRegistered = 0;
-        NETWORK_WRAPPER.registerMessage(packetsRegistered++, TeleportToTargetMessage.class, TeleportToTargetMessage::write, TeleportToTargetMessage::read, TeleportToTargetMessage::handle, Optional.of(NetworkDirection.PLAY_TO_SERVER));
-        NETWORK_WRAPPER.registerMessage(packetsRegistered++, PlayerListResponseMessage.class, PlayerListResponseMessage::write, PlayerListResponseMessage::read, PlayerListResponseMessage::handle, Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, TeleportToTargetMessage.class,
+                TeleportToTargetMessage::write,
+                TeleportToTargetMessage::read,
+                TeleportToTargetMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, PlayerListResponseMessage.class,
+                PlayerListResponseMessage::write, PlayerListResponseMessage::read,
+                PlayerListResponseMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
