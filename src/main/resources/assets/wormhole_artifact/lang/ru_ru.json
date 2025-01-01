@@ -1,0 +1,8 @@
+{
+  "item.wormhole_artifact.wormhole_artifact": "Артефакт червоточины",
+  "item.wormhole_artifact.wormhole_artifact_screen": "Игрок для телепортации",
+  "text.wormhole_artifact.teleported": "%s телепортировался в %s",
+  "text.wormhole_artifact.player_not_found": "Игрок не найден!",
+
+  "wormhole_artifact.wormhole_artifact_tab": "Мод Артефакт червоточины"
+}

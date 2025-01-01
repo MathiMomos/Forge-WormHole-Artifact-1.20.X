@@ -31,7 +31,6 @@ public class WormholeArtifactScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-
         updateButtons();
     }
 
@@ -42,11 +41,12 @@ public class WormholeArtifactScreen extends Screen {
         int centerY = (this.height - guiHeight) / 2;
 
         int startX = centerX + 8;
-        int startY = centerY + 40;
+        int startY = centerY + 20;
 
         int buttonWidth = 144;
         int buttonHeight = 30;
-        int gap = 35;
+        int gap = 32;
+
 
         for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, pPlayers.size()); i++) {
             String pPlayerName = pPlayers.get(i);
@@ -70,16 +70,16 @@ public class WormholeArtifactScreen extends Screen {
 
         int textWidth = this.font.width(this.title.getString());
         int x = (this.width - textWidth) / 2;
-        pGuiGraphics.drawString(this.font, this.title.getString(), x, centerY + 10, 0x3F3F3F, false);
+        pGuiGraphics.drawString(this.font, this.title.getString(), x, centerY + 6, 0x3F3F3F, false);
 
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
         int startX = centerX + 8;
-        int startY = centerY + 40;
+        int startY = centerY + 36;
 
         for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, pPlayers.size()); i++) {
             String pPlayerName = pPlayers.get(i);
-            int buttonY = startY + ((i - scrollIndex) * 35);
+            int buttonY = startY + ((i - scrollIndex) * 32);
             int headY = buttonY + 7;
             int headX = startX + 7;
 
@@ -88,10 +88,11 @@ public class WormholeArtifactScreen extends Screen {
                 GameProfile gameProfile = playerInfo.getProfile();
                 ResourceLocation skinLocation = Minecraft.getInstance().getSkinManager().getInsecureSkinLocation(gameProfile);
 
-                pGuiGraphics.blit(skinLocation, headX, headY, 16, 16, 8, 8, 8, 8, 64, 64);
+                pGuiGraphics.blit(skinLocation, headX, headY, 16, 16, 8, 8, 8 , 8, 64, 64);
             }
         }
     }
+
     @Override
     public boolean keyPressed(int pKeyCode, int pScanCode, int pModifiers) {
         KeyMapping keyInventory = Minecraft.getInstance().options.keyInventory;

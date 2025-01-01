@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,7 @@ public class WormholeArtifactItem extends Item {
             if (pPlayer instanceof ServerPlayer serverPlayer) {
                 List<String> players = pLevel.getServer().getPlayerList().getPlayers().stream()
                         .filter(player -> hasWormholeArtifactInInventory(player))
+                        .filter(player -> !player.getName().getString().equals(pPlayer.getName().getString()))
                         .map(player -> player.getName().getString())
                         .collect(Collectors.toList());
 

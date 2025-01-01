@@ -1,0 +1,8 @@
+{
+  "item.wormhole_artifact.wormhole_artifact": "ワームホール アーティファクト",
+  "item.wormhole_artifact.wormhole_artifact_screen": "テレポートするプレイヤー",
+  "text.wormhole_artifact.teleported": "%s が %s にテレポートしました",
+  "text.wormhole_artifact.player_not_found": "プレイヤーが見つかりません!",
+
+"wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
+}

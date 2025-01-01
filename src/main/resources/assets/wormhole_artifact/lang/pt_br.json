@@ -1,0 +1,8 @@
+{
+  "item.wormhole_artifact.wormhole_artifact": "Artefato de buraco de minhoca",
+  "item.wormhole_artifact.wormhole_artifact_screen": "Jogador para se teletransportar",
+  "text.wormhole_artifact.teleported": "%s foi teletransportado para %s",
+  "text.wormhole_artifact.player_not_found": "Jogador não encontrado",
+
+"wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
+}
