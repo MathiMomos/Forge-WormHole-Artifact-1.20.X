@@ -1,6 +1,7 @@
 package net.mathimomos.wormhole_artifact.server.message;
 
 import net.mathimomos.wormhole_artifact.server.item.custom.WormholeArtifactItem;
+import net.mathimomos.wormhole_artifact.server.item.custom.WormholeRemoteItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -26,7 +27,7 @@ public class TeleportToTargetMessage {
         return new TeleportToTargetMessage(pBuffer.readUtf());
     }
 
-    public static void handle (TeleportToTargetMessage pMessage, Supplier<NetworkEvent.Context> pContextSupplier) {
+    public static void handle(TeleportToTargetMessage pMessage, Supplier<NetworkEvent.Context> pContextSupplier) {
         NetworkEvent.Context pContext = pContextSupplier.get();
         pContext.enqueueWork(() -> {
             Player pPlayer = pContext.getSender();
@@ -35,11 +36,16 @@ public class TeleportToTargetMessage {
                         .filter(player -> player.getDisplayName().getString().equals(pMessage.pTargetName))
                         .findFirst()
                         .orElse(null);
-                if (pTargetPlayer != null) {
-                    ((WormholeArtifactItem) pServerPlayer.getMainHandItem().getItem())
-                            .teleportToTarget(pServerPlayer, pTargetPlayer, pServerPlayer.getMainHandItem(), pServerPlayer.level());
-                } else {
 
+                if (pTargetPlayer != null) {
+                    if (pServerPlayer.getMainHandItem().getItem() instanceof WormholeArtifactItem) {
+                        ((WormholeArtifactItem) pServerPlayer.getMainHandItem().getItem())
+                                .teleportToTarget(pServerPlayer, pTargetPlayer, pServerPlayer.getMainHandItem(), pServerPlayer.level());
+                    } else if (pServerPlayer.getMainHandItem().getItem() instanceof WormholeRemoteItem) {
+                        ((WormholeRemoteItem) pServerPlayer.getMainHandItem().getItem())
+                                .teleportToTarget(pServerPlayer, pTargetPlayer, pServerPlayer.getMainHandItem(), pServerPlayer.level());
+                    }
+                } else {
                     pServerPlayer.displayClientMessage(Component.translatable("text.wormhole_artifact.player_not_found")
                             .setStyle(Style.EMPTY.withColor(ChatFormatting.RED)), true);
                 }
@@ -48,6 +54,7 @@ public class TeleportToTargetMessage {
 
         pContext.setPacketHandled(true);
     }
+
 
 
 }

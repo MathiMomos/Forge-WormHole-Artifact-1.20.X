@@ -21,14 +21,14 @@ import net.minecraftforge.network.PacketDistributor;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class WormholeArtifactItem extends Item {
-    private static final int COOLDOWN_TIME_TICKS = 100;
+public class WormholeRemoteItem extends Item {
+    private static final int COOLDOWN_TIME_TICKS = 40;
 
-    public WormholeArtifactItem(Properties pProperties) {
+    public WormholeRemoteItem(Properties pProperties) {
         super(pProperties);
     }
 
-    private boolean hasWormholeArtifactInInventory(Player pPlayer) {
+    private boolean hasWormholeRemoteInInventory(Player pPlayer) {
         for (ItemStack stack : pPlayer.getInventory().items) {
             if (stack.getItem() == this) {
                 return true;
@@ -43,12 +43,10 @@ public class WormholeArtifactItem extends Item {
 
         if (!pLevel.isClientSide) {
             if (pPlayer instanceof ServerPlayer serverPlayer) {
-                Level pPlayerLevel = pPlayer.level();
                 List<String> players = pLevel.getServer().getPlayerList().getPlayers().stream()
-                        .filter(player -> hasWormholeArtifactInInventory(player))
+                        .filter(player -> hasWormholeRemoteInInventory(player))
                         .filter(player -> !player.getName().getString().equals(pPlayer.getName().getString()))
                         .filter(player -> player.isAlive())
-                        .filter(player -> player.level() == pPlayerLevel)
                         .map(player -> player.getName().getString())
                         .collect(Collectors.toList());
 
@@ -62,7 +60,14 @@ public class WormholeArtifactItem extends Item {
 
     public void teleportToTarget(ServerPlayer pPlayer, ServerPlayer pTargetPlayer, ItemStack pStack, Level pLevel) {
         if (pTargetPlayer != null && pTargetPlayer.isAlive()) {
-            pPlayer.teleportTo(pTargetPlayer.getX(), pTargetPlayer.getY(), pTargetPlayer.getZ());
+            ServerLevel targetLevel = (ServerLevel) pTargetPlayer.level();
+
+            if (pPlayer.level() != targetLevel) {
+                pPlayer.teleportTo(targetLevel, pTargetPlayer.getX(), pTargetPlayer.getY(), pTargetPlayer.getZ(), pTargetPlayer.getYRot(), pTargetPlayer.getXRot());
+            } else {
+                pPlayer.teleportTo(pTargetPlayer.getX(), pTargetPlayer.getY(), pTargetPlayer.getZ());
+            }
+
             pStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
             pPlayer.getCooldowns().addCooldown(this, COOLDOWN_TIME_TICKS);
 
@@ -89,10 +94,11 @@ public class WormholeArtifactItem extends Item {
                         serverLevel.sendParticles(ParticleTypes.PORTAL, x, y + j * height / 10, z, 1, 0, speed, 0, 3);
                     }
                 }
+
                 serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(),
                         SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
-
             }
         }
     }
+
 }
