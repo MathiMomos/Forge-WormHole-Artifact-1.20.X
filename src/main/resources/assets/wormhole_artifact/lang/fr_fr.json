@@ -1,0 +1,9 @@
+{
+  "item.wormhole_artifact.wormhole_artifact": "Artéfact de Trou de Ver",
+  "item.wormhole_artifact.wormhole_remote": "Télécommande de Trou de Ver",
+  "item.wormhole_artifact.wormhole_artifact_screen": "Sélectionnez un joueur",
+  "text.wormhole_artifact.teleported": "%s s'est téléporté à %s",
+  "text.wormhole_artifact.player_not_found": "Joueur introuvable!",
+
+  "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
+}

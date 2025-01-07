@@ -18,6 +18,7 @@ public class ModCreativeModeTabs {
             .title(Component.translatable("wormhole_artifact.wormhole_artifact_tab"))
             .displayItems((pParameters, pOutput) -> {
                 pOutput.accept(ModItems.WORMHOLE_ARTIFACT.get());
+                pOutput.accept(ModItems.WORMHOLE_REMOTE.get());
             })
             .build());
 

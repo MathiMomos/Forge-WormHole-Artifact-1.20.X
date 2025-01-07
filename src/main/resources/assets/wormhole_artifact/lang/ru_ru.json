@@ -1,8 +1,9 @@
 {
-  "item.wormhole_artifact.wormhole_artifact": "Артефакт червоточины",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Игрок для телепортации",
-  "text.wormhole_artifact.teleported": "%s телепортировался в %s",
+  "item.wormhole_artifact.wormhole_artifact": "Артефакт Червоточины",
+  "item.wormhole_artifact.wormhole_remote": "Пульт Червоточины",
+  "item.wormhole_artifact.wormhole_artifact_screen": "Выберите игрока",
+  "text.wormhole_artifact.teleported": "%s телепортировался к %s",
   "text.wormhole_artifact.player_not_found": "Игрок не найден!",
 
-  "wormhole_artifact.wormhole_artifact_tab": "Мод Артефакт червоточины"
+  "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
 }

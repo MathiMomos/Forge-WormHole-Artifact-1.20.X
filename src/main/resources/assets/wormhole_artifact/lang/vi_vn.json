@@ -1,0 +1,9 @@
+{
+  "item.wormhole_artifact.wormhole_artifact": "Tạo Vật Hố Giun",
+  "item.wormhole_artifact.wormhole_remote": "Điều Khiển Hố Giun",
+  "item.wormhole_artifact.wormhole_artifact_screen": "Chọn một người chơi",
+  "text.wormhole_artifact.teleported": "%s đã dịch chuyển đến %s",
+  "text.wormhole_artifact.player_not_found": "Không tìm thấy người chơi!",
+
+  "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
+}

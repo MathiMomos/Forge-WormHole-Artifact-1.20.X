@@ -1,0 +1,9 @@
+{
+  "item.wormhole_artifact.wormhole_artifact": "웜홀 유물",
+  "item.wormhole_artifact.wormhole_remote": "웜홀 리모컨",
+  "item.wormhole_artifact.wormhole_artifact_screen": "플레이어 선택",
+  "text.wormhole_artifact.teleported": "%s님이 %s로 텔레포트했습니다",
+  "text.wormhole_artifact.player_not_found": "플레이어를 찾을 수 없습니다!",
+
+  "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
+}

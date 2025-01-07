@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "GWG",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:crying_obsidian"
+    },
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "W": {
+      "item": "wormhole_artifact:wormhole_artifact"
+    }
+  },
+  "result": {
+    "item": "wormhole_artifact:wormhole_remote",
+    "count": 1
+  }
+}

@@ -1,8 +1,9 @@
 {
   "item.wormhole_artifact.wormhole_artifact": "Wurmloch-Artefakt",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Spieler zum Teleportieren",
-  "text.wormhole_artifact.teleported": "%s hat sich zu %s teleportiert",
-  "text.wormhole_artifact.player_not_found": "Spieler nicht gefunden",
+  "item.wormhole_artifact.wormhole_remote": "Wurmloch-Fernbedienung",
+  "item.wormhole_artifact.wormhole_artifact_screen": "Wähle einen Spieler",
+  "text.wormhole_artifact.teleported": "%s wurde zu %s teleportiert",
+  "text.wormhole_artifact.player_not_found": "Spieler nicht gefunden!",
 
-"wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
+  "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
 }

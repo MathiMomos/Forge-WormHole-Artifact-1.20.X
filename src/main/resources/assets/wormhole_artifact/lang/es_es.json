@@ -1,8 +1,9 @@
 {
   "item.wormhole_artifact.wormhole_artifact": "Artefacto de Agujero de Gusano",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Jugador a teletransportarse",
+  "item.wormhole_artifact.wormhole_remote": "Control de Agujero de Gusano",
+  "item.wormhole_artifact.wormhole_artifact_screen": "Selecciona un jugador",
   "text.wormhole_artifact.teleported": "%s se ha teletransportado a %s",
-  "text.wormhole_artifact.player_not_found": "Jugador no encontrado",
+  "text.wormhole_artifact.player_not_found": "¡Jugador no encontrado!",
 
-"wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
+  "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
 }

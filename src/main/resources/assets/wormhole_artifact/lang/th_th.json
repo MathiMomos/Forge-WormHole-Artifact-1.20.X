@@ -1,0 +1,9 @@
+{
+  "item.wormhole_artifact.wormhole_artifact": "วัตถุโบราณรูหนอน",
+  "item.wormhole_artifact.wormhole_remote": "รีโมตรูหนอน",
+  "item.wormhole_artifact.wormhole_artifact_screen": "เลือกผู้เล่น",
+  "text.wormhole_artifact.teleported": "%s เทเลพอร์ตไปหา %s แล้ว",
+  "text.wormhole_artifact.player_not_found": "ไม่พบผู้เล่น!",
+
+  "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
+}

@@ -1,8 +1,9 @@
 {
   "item.wormhole_artifact.wormhole_artifact": "虫洞神器",
-  "item.wormhole_artifact.wormhole_artifact_screen": "选择要传送的玩家",
+  "item.wormhole_artifact.wormhole_remote": "虫洞遥控器",
+  "item.wormhole_artifact.wormhole_artifact_screen": "选择一个玩家",
   "text.wormhole_artifact.teleported": "%s 已传送至 %s",
-  "text.wormhole_artifact.player_not_found": "未找到玩家！",
+  "text.wormhole_artifact.player_not_found": "未找到玩家!",
 
-  "wormhole_artifact.wormhole_artifact_tab": "虫洞神器模组"
+  "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
 }

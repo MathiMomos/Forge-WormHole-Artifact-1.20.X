@@ -1,16 +1,13 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "ccF",
+        "ccc",
         "cEc",
         "ccc"
     ],
     "key": {
         "c": {
             "item": "minecraft:copper_ingot"
-        },
-        "F": {
-            "item": "minecraft:flint"
         },
         "E": {
             "item": "minecraft:ender_pearl"

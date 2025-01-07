@@ -1,8 +1,9 @@
 {
-  "item.wormhole_artifact.wormhole_artifact": "ワームホール アーティファクト",
-  "item.wormhole_artifact.wormhole_artifact_screen": "テレポートするプレイヤー",
+  "item.wormhole_artifact.wormhole_artifact": "ワームホールのアーティファクト",
+  "item.wormhole_artifact.wormhole_remote": "ワームホールのリモコン",
+  "item.wormhole_artifact.wormhole_artifact_screen": "プレイヤーを選択",
   "text.wormhole_artifact.teleported": "%s が %s にテレポートしました",
-  "text.wormhole_artifact.player_not_found": "プレイヤーが見つかりません!",
+  "text.wormhole_artifact.player_not_found": "プレイヤーが見つかりません！",
 
-"wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
+  "wormhole_artifact.wormhole_artifact_tab": "Wormhole Artifact Mod"
 }

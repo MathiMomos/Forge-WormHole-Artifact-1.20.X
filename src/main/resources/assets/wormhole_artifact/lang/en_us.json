@@ -1,6 +1,7 @@
 {
   "item.wormhole_artifact.wormhole_artifact": "Wormhole Artifact",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Select a player to teleport",
+  "item.wormhole_artifact.wormhole_remote": "Wormhole Remote",
+  "item.wormhole_artifact.wormhole_artifact_screen": "Select a player",
   "text.wormhole_artifact.teleported": "%s has teleported to %s",
   "text.wormhole_artifact.player_not_found": "Player not found!",
 

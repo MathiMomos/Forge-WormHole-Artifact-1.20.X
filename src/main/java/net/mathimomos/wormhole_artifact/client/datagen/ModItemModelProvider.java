@@ -18,6 +18,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         simpleItem(ModItems.WORMHOLE_ARTIFACT);
+        simpleItem(ModItems.WORMHOLE_REMOTE);
     }
 
     private ItemModelBuilder simpleItem(RegistryObject<Item> item) {
