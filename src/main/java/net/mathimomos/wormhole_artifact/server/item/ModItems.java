@@ -19,6 +19,9 @@ public class ModItems {
     public static final RegistryObject<Item> WORMHOLE_REMOTE = ITEMS.register("wormhole_remote",
             () -> new WormholeRemoteItem(new Item.Properties().durability(64)));
 
+    public static final RegistryObject<Item> ENDER_NACRE = ITEMS.register("ender_nacre",
+            () -> new Item(new Item.Properties()));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

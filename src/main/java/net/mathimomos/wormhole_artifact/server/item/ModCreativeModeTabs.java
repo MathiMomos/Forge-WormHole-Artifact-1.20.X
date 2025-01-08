@@ -17,8 +17,11 @@ public class ModCreativeModeTabs {
     () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.WORMHOLE_ARTIFACT.get()))
             .title(Component.translatable("wormhole_artifact.wormhole_artifact_tab"))
             .displayItems((pParameters, pOutput) -> {
+                pOutput.accept(ModItems.ENDER_NACRE.get());
+
                 pOutput.accept(ModItems.WORMHOLE_ARTIFACT.get());
                 pOutput.accept(ModItems.WORMHOLE_REMOTE.get());
+
             })
             .build());
 

@@ -2,6 +2,7 @@ package net.mathimomos.wormhole_artifact.client.datagen;
 
 
 import net.mathimomos.wormhole_artifact.WormholeArtifact;
+import net.mathimomos.wormhole_artifact.client.block.ModBlocks;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;

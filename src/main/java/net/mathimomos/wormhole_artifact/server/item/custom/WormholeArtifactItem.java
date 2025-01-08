@@ -1,6 +1,8 @@
 package net.mathimomos.wormhole_artifact.server.item.custom;
 
 import net.mathimomos.wormhole_artifact.WormholeArtifact;
+import net.mathimomos.wormhole_artifact.server.item.ModItems;
+import net.mathimomos.wormhole_artifact.server.message.PlayerData;
 import net.mathimomos.wormhole_artifact.server.message.PlayerListResponseMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
@@ -43,21 +45,32 @@ public class WormholeArtifactItem extends Item {
 
         if (!pLevel.isClientSide) {
             if (pPlayer instanceof ServerPlayer serverPlayer) {
-                Level pPlayerLevel = pPlayer.level();
-                List<String> players = pLevel.getServer().getPlayerList().getPlayers().stream()
+                List<PlayerData> playerDataList = pLevel.getServer().getPlayerList().getPlayers().stream()
                         .filter(player -> hasWormholeArtifactInInventory(player))
-                        .filter(player -> !player.getName().getString().equals(pPlayer.getName().getString()))
+                        //.filter(player -> !player.getName().getString().equals(pPlayer.getName().getString()))
+                        .filter(player -> player.level() == pPlayer.level())
                         .filter(player -> player.isAlive())
-                        .filter(player -> player.level() == pPlayerLevel)
-                        .map(player -> player.getName().getString())
+                        .map(player -> {
+                            String name = player.getName().getString();
+                            String dimension = player.level().dimension().location().toString();
+                            int distance = (player.level() == serverPlayer.level())
+                                    ? (int) Math.sqrt(serverPlayer.distanceToSqr(player))
+                                    : -1;
+                            return new PlayerData(name, dimension, distance);
+                        })
                         .collect(Collectors.toList());
 
-                PlayerListResponseMessage message = new PlayerListResponseMessage(players);
+                PlayerListResponseMessage message = new PlayerListResponseMessage(playerDataList);
                 WormholeArtifact.NETWORK_WRAPPER.send(PacketDistributor.PLAYER.with(() -> serverPlayer), message);
             }
         }
 
         return InteractionResultHolder.sidedSuccess(pStack, pLevel.isClientSide());
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack stackToRepair, ItemStack repairMaterial) {
+        return repairMaterial.getItem() == ModItems.ENDER_NACRE.get() || super.isValidRepairItem(stackToRepair, repairMaterial);
     }
 
     public void teleportToTarget(ServerPlayer pPlayer, ServerPlayer pTargetPlayer, ItemStack pStack, Level pLevel) {

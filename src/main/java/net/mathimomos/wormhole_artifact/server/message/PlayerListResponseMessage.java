@@ -14,26 +14,31 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class PlayerListResponseMessage {
-    private final List<String> playerNames;
+    private final List<PlayerData> playerData;
 
-    public PlayerListResponseMessage(List<String> playerNames) {
-        this.playerNames = playerNames;
+    public PlayerListResponseMessage(List<PlayerData> playerData) {
+        this.playerData = playerData;
     }
 
     public static void write(PlayerListResponseMessage message, FriendlyByteBuf buffer) {
-        buffer.writeInt(message.playerNames.size());
-        for (String playerName : message.playerNames) {
-            buffer.writeUtf(playerName);
+        buffer.writeInt(message.playerData.size());
+        for (PlayerData data : message.playerData) {
+            buffer.writeUtf(data.getPlayerName());
+            buffer.writeUtf(data.getPlayerDimension());
+            buffer.writeInt(data.getPlayerDistance());
         }
     }
 
     public static PlayerListResponseMessage read(FriendlyByteBuf buffer) {
         int size = buffer.readInt();
-        List<String> playerNames = new ArrayList<>();
+        List<PlayerData> playerData = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            playerNames.add(buffer.readUtf());
+            String name = buffer.readUtf();
+            String dimension = buffer.readUtf();
+            int distance = buffer.readInt();
+            playerData.add(new PlayerData(name, dimension, distance));
         }
-        return new PlayerListResponseMessage(playerNames);
+        return new PlayerListResponseMessage(playerData);
     }
 
     public static void handle(PlayerListResponseMessage pMessage, Supplier<NetworkEvent.Context> pContextSupplier) {
@@ -49,11 +54,11 @@ public class PlayerListResponseMessage {
 
     @OnlyIn(Dist.CLIENT)
     private static void handleClient(PlayerListResponseMessage pMessage) {
-        List<String> playerNames = pMessage.getPlayerNames();
-        Minecraft.getInstance().setScreen(new WormholeArtifactScreen(playerNames));
+        List<PlayerData> playerData = pMessage.getPlayerData();
+        Minecraft.getInstance().setScreen(new WormholeArtifactScreen(playerData));
     }
 
-    public List<String> getPlayerNames() {
-        return playerNames;
+    public List<PlayerData> getPlayerData() {
+        return playerData;
     }
 }

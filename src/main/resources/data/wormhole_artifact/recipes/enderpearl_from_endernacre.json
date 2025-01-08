@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "cc",
+        "cc"
+    ],
+    "key": {
+        "c": {
+            "item": "wormhole_artifact:ender_nacre"
+        }
+    },
+    "result": {
+        "item": "minecraft:ender_pearl",
+        "count": 1
+    }
+}

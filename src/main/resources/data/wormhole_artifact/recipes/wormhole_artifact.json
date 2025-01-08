@@ -1,16 +1,19 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "ccc",
-        "cEc",
-        "ccc"
+        "CCC",
+        "NEN",
+        "CCC"
     ],
     "key": {
-        "c": {
-            "item": "minecraft:copper_ingot"
+        "C": {
+            "item": "minecraft:copper_block"
         },
         "E": {
             "item": "minecraft:ender_pearl"
+        },
+        "N": {
+            "item": "wormhole_artifact:ender_nacre"
         }
     },
     "result": {

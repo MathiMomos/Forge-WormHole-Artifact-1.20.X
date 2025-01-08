@@ -1,15 +1,15 @@
 package net.mathimomos.wormhole_artifact.client.screen;
 
-import com.mojang.authlib.GameProfile;
 import net.mathimomos.wormhole_artifact.WormholeArtifact;
+import net.mathimomos.wormhole_artifact.server.message.PlayerData;
 import net.mathimomos.wormhole_artifact.server.message.TeleportToTargetMessage;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.multiplayer.PlayerInfo;
+import com.mojang.authlib.GameProfile;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class WormholeArtifactScreen extends Screen {
     private static final int BUTTON_HEIGHT = 30;
     private static final int BUTTON_GAP = 32;
 
-    private final List<String> playerNames;
+    private final List<PlayerData> playerDataList;  // Usamos PlayerData en lugar de solo nombres
     private int scrollIndex = 0;
 
     private int centerX;
@@ -33,9 +33,9 @@ public class WormholeArtifactScreen extends Screen {
     private int startX;
     private int startY;
 
-    public WormholeArtifactScreen(List<String> playerNames) {
+    public WormholeArtifactScreen(List<PlayerData> playerDataList) {
         super(Component.translatable("item.wormhole_artifact.wormhole_artifact_screen"));
-        this.playerNames = playerNames;
+        this.playerDataList = playerDataList;
     }
 
     @Override
@@ -53,14 +53,18 @@ public class WormholeArtifactScreen extends Screen {
     private void updateButtons() {
         this.clearWidgets();
 
-        for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, playerNames.size()); i++) {
-            String playerName = playerNames.get(i);
+        for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, playerDataList.size()); i++) {
+            PlayerData playerData = playerDataList.get(i);
             int buttonY = startY + ((i - scrollIndex) * BUTTON_GAP);
+
+            String playerName = playerData.getPlayerName();
+            String playerDimension = playerData.getPlayerDimension();
+            String playerDistance = Integer.toString(playerData.getPlayerDistance());
 
             this.addRenderableWidget(new WormholeArtifactButton(
                     startX, buttonY, BUTTON_WIDTH, BUTTON_HEIGHT,
-                    Component.literal(playerName),
-                    button -> onPlayerSelected(playerName)
+                    playerName, playerDimension, playerDistance,
+                    button -> onPlayerSelected(playerData)
             ));
         }
     }
@@ -77,13 +81,13 @@ public class WormholeArtifactScreen extends Screen {
         super.render(graphics, mouseX, mouseY, partialTick);
 
         Minecraft.getInstance();
-        for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, playerNames.size()); i++) {
-            String playerName = playerNames.get(i);
+        for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, playerDataList.size()); i++) {
+            PlayerData playerData = playerDataList.get(i);
             int buttonY = startY + ((i - scrollIndex) * BUTTON_GAP);
             int headX = startX + 7;
             int headY = buttonY + 7;
 
-            PlayerInfo playerInfo = minecraft.getConnection().getPlayerInfo(playerName);
+            PlayerInfo playerInfo = minecraft.getConnection().getPlayerInfo(playerData.getPlayerName());
             if (playerInfo != null) {
                 GameProfile profile = playerInfo.getProfile();
                 ResourceLocation skin = minecraft.getSkinManager().getInsecureSkinLocation(profile);
@@ -106,15 +110,15 @@ public class WormholeArtifactScreen extends Screen {
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
         if (delta > 0 && scrollIndex > 0) {
             scrollIndex--;
-        } else if (delta < 0 && scrollIndex + BUTTONS_PER_PAGE < playerNames.size()) {
+        } else if (delta < 0 && scrollIndex + BUTTONS_PER_PAGE < playerDataList.size()) {
             scrollIndex++;
         }
         updateButtons();
         return super.mouseScrolled(mouseX, mouseY, delta);
     }
 
-    private void onPlayerSelected(String targetPlayerName) {
-        WormholeArtifact.NETWORK_WRAPPER.sendToServer(new TeleportToTargetMessage(targetPlayerName));
+    private void onPlayerSelected(PlayerData targetPlayerData) {
+        WormholeArtifact.NETWORK_WRAPPER.sendToServer(new TeleportToTargetMessage(targetPlayerData.getPlayerName()));
         this.onClose();
     }
 }
