@@ -3,10 +3,6 @@ package net.mathimomos.wormhole_artifact.server.message;
 import net.mathimomos.wormhole_artifact.client.screen.WormholeArtifactScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.ArrayList;
@@ -41,21 +37,15 @@ public class PlayerListResponseMessage {
         return new PlayerListResponseMessage(playerData);
     }
 
-    public static void handle(PlayerListResponseMessage pMessage, Supplier<NetworkEvent.Context> pContextSupplier) {
-        NetworkEvent.Context pContext = pContextSupplier.get();
-        pContext.enqueueWork(() -> {
-            if (pContext.getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
-                // Thx for all Blackbox.ai I was already crying 😭
-                DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> handleClient(pMessage));
+    public static void handle(PlayerListResponseMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
+        NetworkEvent.Context context = contextSupplier.get();
+        context.enqueueWork(() -> {
+            Minecraft minecraft = Minecraft.getInstance();
+            if (minecraft.screen instanceof WormholeArtifactScreen screen) {
+                screen.updatePlayerData(message.getPlayerData());
             }
         });
-        pContext.setPacketHandled(true);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static void handleClient(PlayerListResponseMessage pMessage) {
-        List<PlayerData> playerData = pMessage.getPlayerData();
-        Minecraft.getInstance().setScreen(new WormholeArtifactScreen(playerData));
+        context.setPacketHandled(true);
     }
 
     public List<PlayerData> getPlayerData() {

@@ -1,11 +1,11 @@
 package net.mathimomos.wormhole_artifact.server.item.custom;
 
 import net.mathimomos.wormhole_artifact.WormholeArtifact;
+import net.mathimomos.wormhole_artifact.client.particle.ModParticles;
 import net.mathimomos.wormhole_artifact.server.item.ModItems;
 import net.mathimomos.wormhole_artifact.server.message.PlayerData;
 import net.mathimomos.wormhole_artifact.server.message.PlayerListResponseMessage;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
@@ -93,24 +93,39 @@ public class WormholeRemoteItem extends Item {
             ));
 
             if (pLevel instanceof ServerLevel serverLevel) {
-                double radius = 1.0;
-                int particleCount = 30;
-                double height = 2.0;
-                double speed = 0.05;
+                double spacing = 0.75;
 
-                for (int i = 0; i < particleCount; i++) {
-                    double angle = 2 * Math.PI * i / particleCount;
-                    double x = pPlayer.getX() + radius * Math.cos(angle);
-                    double z = pPlayer.getZ() + radius * Math.sin(angle);
+                for (int i = 0; i < 3; i++) {
+                    double x = pPlayer.getX();
+                    double z = pPlayer.getZ();
+                    double y = pPlayer.getY() + i * spacing;
+
+                    serverLevel.sendParticles(
+                            ModParticles.TELEPORT_WAVE_PARTICLES.get(),
+                            x, y, z,
+                            1,
+                            0, 0, 0,
+                            0.1f
+                    );
+                }
+
+                for (int j = 0; j < 20; j++) {
+                    double x = pPlayer.getX();
+                    double z = pPlayer.getZ();
                     double y = pPlayer.getY();
 
-                    for (int j = 0; j < 10; j++) {
-                        serverLevel.sendParticles(ParticleTypes.PORTAL, x, y + j * height / 10, z, 1, 0, speed, 0, 3);
-                    }
+                    serverLevel.sendParticles(
+                            ModParticles.TELEPORT_PARTICLES.get(),
+                            x, y, z,
+                            1,
+                            0.5, 0.5, 0.5,
+                            1f
+                    );
                 }
 
                 serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(),
                         SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 2.0F, 1.0F);
+
             }
         }
     }

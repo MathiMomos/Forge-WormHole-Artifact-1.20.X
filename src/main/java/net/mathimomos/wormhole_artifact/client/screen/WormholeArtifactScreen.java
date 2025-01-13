@@ -2,6 +2,7 @@ package net.mathimomos.wormhole_artifact.client.screen;
 
 import net.mathimomos.wormhole_artifact.WormholeArtifact;
 import net.mathimomos.wormhole_artifact.server.message.PlayerData;
+import net.mathimomos.wormhole_artifact.server.message.PlayerListRequestMessage;
 import net.mathimomos.wormhole_artifact.server.message.TeleportToTargetMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -11,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import com.mojang.authlib.GameProfile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WormholeArtifactScreen extends Screen {
@@ -25,7 +27,9 @@ public class WormholeArtifactScreen extends Screen {
     private static final int BUTTON_HEIGHT = 30;
     private static final int BUTTON_GAP = 32;
 
-    private final List<PlayerData> playerDataList;  // Usamos PlayerData en lugar de solo nombres
+    private List<PlayerData> playerDataList;
+    private int tickCount = 20;
+
     private int scrollIndex = 0;
 
     private int centerX;
@@ -33,10 +37,11 @@ public class WormholeArtifactScreen extends Screen {
     private int startX;
     private int startY;
 
-    public WormholeArtifactScreen(List<PlayerData> playerDataList) {
+    public WormholeArtifactScreen() {
         super(Component.translatable("item.wormhole_artifact.wormhole_artifact_screen"));
-        this.playerDataList = playerDataList;
+        this.playerDataList = new ArrayList<>();
     }
+
 
     @Override
     protected void init() {
@@ -47,6 +52,24 @@ public class WormholeArtifactScreen extends Screen {
         startX = centerX + 12;
         startY = centerY + 20;
 
+        WormholeArtifact.NETWORK_WRAPPER.sendToServer(new PlayerListRequestMessage());
+        updateButtons();
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        tickCount++;
+
+        if (tickCount >= 20) {
+            tickCount = 0;
+
+            WormholeArtifact.NETWORK_WRAPPER.sendToServer(new PlayerListRequestMessage());
+        }
+    }
+
+    public void updatePlayerData(List<PlayerData> newPlayerDataList) {
+        this.playerDataList = newPlayerDataList;
         updateButtons();
     }
 
@@ -120,5 +143,10 @@ public class WormholeArtifactScreen extends Screen {
     private void onPlayerSelected(PlayerData targetPlayerData) {
         WormholeArtifact.NETWORK_WRAPPER.sendToServer(new TeleportToTargetMessage(targetPlayerData.getPlayerName()));
         this.onClose();
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 }

@@ -1,15 +1,16 @@
 package net.mathimomos.wormhole_artifact;
 
 import com.mojang.logging.LogUtils;
+import net.mathimomos.wormhole_artifact.client.particle.ModParticles;
 import net.mathimomos.wormhole_artifact.server.item.ModCreativeModeTabs;
 import net.mathimomos.wormhole_artifact.server.item.ModItems;
+import net.mathimomos.wormhole_artifact.server.message.OpenWormholeArtifactScreenMessage;
+import net.mathimomos.wormhole_artifact.server.message.PlayerListRequestMessage;
 import net.mathimomos.wormhole_artifact.server.message.PlayerListResponseMessage;
 import net.mathimomos.wormhole_artifact.server.message.TeleportToTargetMessage;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,7 +18,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -45,6 +45,8 @@ public class WormholeArtifact {
 
         ModItems.register(modEventBus);
 
+        ModParticles.register(modEventBus);
+
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -58,9 +60,21 @@ public class WormholeArtifact {
                 TeleportToTargetMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_SERVER));
 
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, PlayerListRequestMessage.class,
+                PlayerListRequestMessage::write,
+                PlayerListRequestMessage::read,
+                PlayerListRequestMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_SERVER));
+
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, PlayerListResponseMessage.class,
-                PlayerListResponseMessage::write, PlayerListResponseMessage::read,
+                PlayerListResponseMessage::write,
+                PlayerListResponseMessage::read,
                 PlayerListResponseMessage::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, OpenWormholeArtifactScreenMessage.class,
+                OpenWormholeArtifactScreenMessage::write, OpenWormholeArtifactScreenMessage::read,
+                OpenWormholeArtifactScreenMessage::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
