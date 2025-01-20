@@ -13,6 +13,8 @@ import org.jetbrains.annotations.Nullable;
 
 import org.joml.Vector3f;
 
+import java.util.Random;
+
 public class TeleportWaveParticles extends TextureSheetParticle {
 
     protected TeleportWaveParticles(ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed, SpriteSet pSprites) {
@@ -21,7 +23,7 @@ public class TeleportWaveParticles extends TextureSheetParticle {
         this.yd = 0.05F;
         this.zd = 0;
         this.quadSize = 1f;
-        this.lifetime = 20;
+        this.lifetime = new Random().nextInt(10 + 1) + 10;
         this.setSpriteFromAge(pSprites);
 
         this.rCol = 1F;
@@ -43,7 +45,7 @@ public class TeleportWaveParticles extends TextureSheetParticle {
     }
 
     private void fadeOut() {
-        this.alpha = (float) Math.pow(1 - (age / (float) lifetime), 2);
+        this.alpha = (float) Math.pow(1 - (age / (float) lifetime), 3);
     }
 
     @Override
@@ -99,6 +101,11 @@ public class TeleportWaveParticles extends TextureSheetParticle {
     @Override
     public ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    }
+
+    @Override
+    protected int getLightColor(float pPartialTick) {
+        return 15728880;
     }
 
     @OnlyIn(Dist.CLIENT)

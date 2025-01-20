@@ -5,6 +5,7 @@ import net.mathimomos.wormhole_artifact.server.item.ModItems;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
@@ -33,14 +34,13 @@ public class PlayerListRequestMessage {
 
             List<PlayerData> playerDataList = pLevel.getServer().getPlayerList().getPlayers().stream()
                     .filter(player -> hasWormholeArtifactsInInventory(player))
-                    //.filter(player -> !player.getName().getString().equals(serverPlayer.getName().getString()))
+                    .filter(player -> !player.getName().getString().equals(serverPlayer.getName().getString()))
                     .filter(player -> player.isAlive())
+                    .filter(player -> notMultidimension(serverPlayer) ? player.level() == serverPlayer.level() : true)
                     .map(player -> {
                         String name = player.getName().getString();
                         String dimension = player.level().dimension().location().toString();
-                        int distance = (player.level() == serverPlayer.level())
-                                ? (int) Math.sqrt(serverPlayer.distanceToSqr(player))
-                                : -1;
+                        int distance = (player.level() == serverPlayer.level()) ? (int) Math.sqrt(serverPlayer.distanceToSqr(player)) : -1;
                         return new PlayerData(name, dimension, distance);
                     })
                     .collect(Collectors.toList());
@@ -58,5 +58,13 @@ public class PlayerListRequestMessage {
             }
         }
         return false;
+    }
+
+    private static boolean notMultidimension(Player pPlayer) {
+        ItemStack stackMain = pPlayer.getMainHandItem();
+        ItemStack stackOff = pPlayer.getOffhandItem();
+        Item wormholeArtifact = ModItems.WORMHOLE_ARTIFACT.get();
+
+        return stackMain.getItem() == wormholeArtifact || stackOff.getItem() == wormholeArtifact;
     }
 }

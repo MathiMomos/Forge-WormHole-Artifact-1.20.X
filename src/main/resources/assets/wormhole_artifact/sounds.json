@@ -1,0 +1,8 @@
+{
+  "teleport_sfx": {
+    "subtitles": "sounds.wormhole_artifact.teleport_sfx",
+    "sounds": [
+      "wormhole_artifact:teleport_sfx"
+    ]
+  }
+}

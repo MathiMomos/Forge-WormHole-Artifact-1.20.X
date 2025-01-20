@@ -8,7 +8,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public class WormholeArtifactButton extends Button {
+public class  WormholeArtifactButton extends Button {
     private static final ResourceLocation BUTTON_TEXTURE = new ResourceLocation(WormholeArtifact.MOD_ID, "textures/gui/wormhole_artifact_button.png");
     private static final ResourceLocation BUTTON_TEXTURE_HOVERED = new ResourceLocation(WormholeArtifact.MOD_ID, "textures/gui/wormhole_artifact_button_hovered.png");
 

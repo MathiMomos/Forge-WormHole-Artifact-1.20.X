@@ -2,6 +2,8 @@ package net.mathimomos.wormhole_artifact;
 
 import com.mojang.logging.LogUtils;
 import net.mathimomos.wormhole_artifact.client.particle.ModParticles;
+import net.mathimomos.wormhole_artifact.client.sound.ModSounds;
+import net.mathimomos.wormhole_artifact.config.ModConfigs;
 import net.mathimomos.wormhole_artifact.server.item.ModCreativeModeTabs;
 import net.mathimomos.wormhole_artifact.server.item.ModItems;
 import net.mathimomos.wormhole_artifact.server.message.OpenWormholeArtifactScreenMessage;
@@ -47,9 +49,13 @@ public class WormholeArtifact {
 
         ModParticles.register(modEventBus);
 
+        ModSounds.register(modEventBus);
+
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
+
+        ModConfigs.register();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

@@ -45,12 +45,17 @@ public class TeleportParticles extends TextureSheetParticle {
     }
 
     private void fadeOut() {
-        this.alpha = (float) Math.pow(1 - (age / (float) lifetime), 2);
+        this.alpha = (float) Math.pow(1 - (age / (float) lifetime), 3);
     }
 
     @Override
     public ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    }
+
+    @Override
+    protected int getLightColor(float pPartialTick) {
+        return 15728880;
     }
 
     @OnlyIn(Dist.CLIENT)
