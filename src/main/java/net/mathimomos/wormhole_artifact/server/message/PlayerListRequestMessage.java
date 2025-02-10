@@ -34,7 +34,7 @@ public class PlayerListRequestMessage {
 
             List<PlayerData> playerDataList = pLevel.getServer().getPlayerList().getPlayers().stream()
                     .filter(player -> hasWormholeArtifactsInInventory(player))
-                    .filter(player -> !player.getName().getString().equals(serverPlayer.getName().getString()))
+                    //.filter(player -> !player.getName().getString().equals(serverPlayer.getName().getString()))
                     .filter(player -> player.isAlive())
                     .filter(player -> notMultidimension(serverPlayer) ? player.level() == serverPlayer.level() : true)
                     .map(player -> {

@@ -25,9 +25,9 @@ public class ModEvents {
                 if(level instanceof ServerLevel serverLevel) {
                     BlockPos pos = enderpearl.blockPosition();
 
-                    int prob = new Random().nextInt(4) + 1;
+                    double prob = new Random().nextDouble();
 
-                    if(prob > 3) {
+                    if(prob < WormholeArtifact.COMMON_CONFIG.ENDER_NACRE_DROP_PROBABILITY.get()) {
                         ItemStack enderNacreDrop = new ItemStack(ModItems.ENDER_NACRE.get());
                         serverLevel.addFreshEntity(new ItemEntity(serverLevel,
                                 pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, enderNacreDrop));

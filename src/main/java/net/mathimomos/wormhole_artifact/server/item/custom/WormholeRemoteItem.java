@@ -21,7 +21,6 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PacketDistributor;
 
 public class WormholeRemoteItem extends Item {
-    private static final int COOLDOWN_TIME_TICKS = ModConfigs.WORMHOLE_REMOTE_COOLDOWN.get();
 
     public WormholeRemoteItem(Properties pProperties) {
         super(pProperties);
@@ -53,7 +52,7 @@ public class WormholeRemoteItem extends Item {
             teleportEffect(pPlayer, pLevel);
 
             pStack.hurtAndBreak(1, pPlayer, p -> p.broadcastBreakEvent(p.getUsedItemHand()));
-            pPlayer.getCooldowns().addCooldown(this, COOLDOWN_TIME_TICKS);
+            pPlayer.getCooldowns().addCooldown(this, WormholeArtifact.COMMON_CONFIG.WORMHOLE_REMOTE_COOLDOWN.get() * 20);
 
             String pPlayerName = pPlayer.getDisplayName().getString();
             String pTargetPlayerName = pTargetPlayer.getDisplayName().getString();
@@ -102,6 +101,20 @@ public class WormholeRemoteItem extends Item {
             serverLevel.playSound(null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(),
                     ModSounds.TELEPORT_SFX.get(), SoundSource.PLAYERS, 2.0F, 1.0F);
         }
+    }
+
+    @Override
+    public int getMaxDamage(ItemStack stack) {
+        return WormholeArtifact.COMMON_CONFIG.WORMHOLE_REMOTE_MAX_DURABILITY.get();
+    }
+
+    @Override
+    public void setDamage(ItemStack stack, int damage) {
+        int maxDamage = getMaxDamage(stack);
+        if (damage >= maxDamage) {
+            damage = maxDamage - 1;
+        }
+        super.setDamage(stack, damage);
     }
 }
 
