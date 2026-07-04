@@ -27,17 +27,17 @@ public class  WormholeArtifactButton extends Button {
     protected void renderWidget(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         ResourceLocation texture = this.isHovered() ? BUTTON_TEXTURE_HOVERED : BUTTON_TEXTURE;
 
-        pGuiGraphics.blit(texture, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), 160, 30);
+        pGuiGraphics.blit(texture, this.getX(), this.getY(), 0, 0, this.getWidth(), this.getHeight(), super.width, super.height);
 
         Font font = Minecraft.getInstance().font;
 
-        int textNameX = this.getX() + (26 + this.getWidth() - font.width(playerName)) / 2;
+        int textNameX = this.getX() + (this.getWidth() - font.width(playerName)) / 2;
         int textNameY = this.getY() + (this.getHeight() - 18) / 2;
         pGuiGraphics.drawString(font, playerName, textNameX, textNameY, 0xFFFFFF);
 
         String dimensionAndDistance = getDimensionName(dimension) + getDistanceNumber(distance);
 
-        int textDimensionAndDistanceX = this.getX() + (26 + this.getWidth() - font.width(dimensionAndDistance)) / 2;
+        int textDimensionAndDistanceX = this.getX() + (this.getWidth() - font.width(dimensionAndDistance)) / 2;
         int textDimensionAndDistanceY = textNameY + 10;
 
         int dimensionColor = getDimensionColor(dimension);

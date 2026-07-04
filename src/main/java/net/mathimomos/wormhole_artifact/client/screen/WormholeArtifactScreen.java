@@ -6,6 +6,7 @@ import net.mathimomos.wormhole_artifact.server.message.PlayerListRequestMessage;
 import net.mathimomos.wormhole_artifact.server.message.TeleportToTargetMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -20,12 +21,12 @@ public class WormholeArtifactScreen extends Screen {
     private static final ResourceLocation GUI_TEXTURE =
             new ResourceLocation(WormholeArtifact.MOD_ID, "textures/gui/wormhole_artifact_gui.png");
 
-    private static final int GUI_WIDTH = 184;
-    private static final int GUI_HEIGHT = 216;
-    private static final int BUTTONS_PER_PAGE = 6;
-    private static final int BUTTON_WIDTH = 160;
-    private static final int BUTTON_HEIGHT = 30;
-    private static final int BUTTON_GAP = 32;
+    private static final int GUI_WIDTH = 236;
+    private static final int GUI_HEIGHT = 192;
+    private static final int BUTTONS_PER_PAGE = 4;
+    private static final int BUTTON_WIDTH = 220;
+    private static final int BUTTON_HEIGHT = 32;
+    private static final int BUTTON_GAP = 0;
 
     private List<PlayerData> playerDataList;
     private int tickCount = 20;
@@ -37,8 +38,10 @@ public class WormholeArtifactScreen extends Screen {
     private int startX;
     private int startY;
 
+    private EditBox searchBox;
+
     public WormholeArtifactScreen() {
-        super(Component.translatable("item.wormhole_artifact.wormhole_artifact_screen"));
+        super(Component.translatable("gui.wormhole_artifact.wormhole_artifact_screen.title"));
         this.playerDataList = new ArrayList<>();
     }
 
@@ -46,11 +49,21 @@ public class WormholeArtifactScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-
+        //184
         centerX = (this.width - GUI_WIDTH) / 2;
         centerY = (this.height - GUI_HEIGHT) / 2;
-        startX = centerX + 12;
-        startY = centerY + 20;
+        startX = centerX + 8;
+        startY = centerY + 28;
+        searchBox = new EditBox(this.font,
+                centerX + 26, centerY + 12,
+                198,
+                12,
+                Component.translatable("gui.wormhole_artifact.wormhole_artifact_screen.search_text"));
+        searchBox.setMaxLength(50);
+        searchBox.setBordered(true);
+        searchBox.setSuggestion(Component.translatable("gui.wormhole_artifact.wormhole_artifact_screen.search_text").getString());
+        searchBox.setValue("");
+        this.addRenderableWidget(searchBox);
 
         WormholeArtifact.NETWORK_WRAPPER.sendToServer(new PlayerListRequestMessage());
         updateButtons();
@@ -99,34 +112,27 @@ public class WormholeArtifactScreen extends Screen {
         graphics.blit(GUI_TEXTURE, centerX, centerY, 0, 0, GUI_WIDTH, GUI_HEIGHT, GUI_WIDTH, GUI_HEIGHT);
 
         int titleX = centerX + (GUI_WIDTH - this.font.width(this.title.getString())) / 2;
-        graphics.drawString(this.font, this.title.getString(), titleX, centerY + 6, 0x3F3F3F, false);
+        graphics.drawString(this.font, this.title.getString(), titleX, centerY - 16, 0xFFFFFF, false);
+
+        searchBox.render(graphics, mouseX, mouseY, partialTick);
 
         super.render(graphics, mouseX, mouseY, partialTick);
 
-        Minecraft.getInstance();
         for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, playerDataList.size()); i++) {
             PlayerData playerData = playerDataList.get(i);
             int buttonY = startY + ((i - scrollIndex) * BUTTON_GAP);
-            int headX = startX + 7;
-            int headY = buttonY + 7;
+            int headX = startX + 4;
+            int headY = buttonY + 4;
 
             PlayerInfo playerInfo = minecraft.getConnection().getPlayerInfo(playerData.getPlayerName());
             if (playerInfo != null) {
                 GameProfile profile = playerInfo.getProfile();
                 ResourceLocation skin = minecraft.getSkinManager().getInsecureSkinLocation(profile);
 
-                graphics.blit(skin, headX, headY, 16, 16, 8, 8, 8, 8, 64, 64);
+                graphics.blit(skin, headX, headY, 24, 24, 8, 8, 8, 8, 64, 64);
+                graphics.blit(skin, headX, headY, 24, 24, 40, 8, 8, 8, 64, 64);
             }
         }
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)) {
-            this.onClose();
-            return true;
-        }
-        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
@@ -144,6 +150,35 @@ public class WormholeArtifactScreen extends Screen {
         WormholeArtifact.NETWORK_WRAPPER.sendToServer(new TeleportToTargetMessage(targetPlayerData.getPlayerName()));
         this.onClose();
     }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (searchBox.mouseClicked(mouseX, mouseY, button)) {
+            return true;
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean charTyped(char codePoint, int modifiers) {
+        if (searchBox.charTyped(codePoint, modifiers)) {
+            return true;
+        }
+        return super.charTyped(codePoint, modifiers);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (searchBox.keyPressed(keyCode, scanCode, modifiers)) {
+            return true;
+        }
+        if (Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)) {
+            this.onClose();
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
 
     @Override
     public boolean isPauseScreen() {
