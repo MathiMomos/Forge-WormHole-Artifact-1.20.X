@@ -7,6 +7,7 @@ import net.mathimomos.wormhole_artifact.server.message.TeleportToTargetMessage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,9 +27,10 @@ public class WormholeArtifactScreen extends Screen {
     private static final int BUTTONS_PER_PAGE = 4;
     private static final int BUTTON_WIDTH = 220;
     private static final int BUTTON_HEIGHT = 32;
-    private static final int BUTTON_GAP = 0;
+    private static final int BUTTON_GAP = 38;
 
     private List<PlayerData> playerDataList;
+    private List<PlayerData> filteredPlayerDataList;
     private int tickCount = 20;
 
     private int scrollIndex = 0;
@@ -43,13 +45,13 @@ public class WormholeArtifactScreen extends Screen {
     public WormholeArtifactScreen() {
         super(Component.translatable("gui.wormhole_artifact.wormhole_artifact_screen.title"));
         this.playerDataList = new ArrayList<>();
+        this.filteredPlayerDataList = new ArrayList<>();
     }
 
 
     @Override
     protected void init() {
         super.init();
-        //184
         centerX = (this.width - GUI_WIDTH) / 2;
         centerY = (this.height - GUI_HEIGHT) / 2;
         startX = centerX + 8;
@@ -61,7 +63,6 @@ public class WormholeArtifactScreen extends Screen {
                 Component.translatable("gui.wormhole_artifact.wormhole_artifact_screen.search_text"));
         searchBox.setMaxLength(50);
         searchBox.setBordered(true);
-        searchBox.setSuggestion(Component.translatable("gui.wormhole_artifact.wormhole_artifact_screen.search_text").getString());
         searchBox.setValue("");
         this.addRenderableWidget(searchBox);
 
@@ -87,10 +88,23 @@ public class WormholeArtifactScreen extends Screen {
     }
 
     private void updateButtons() {
-        this.clearWidgets();
+        for (GuiEventListener child : List.copyOf(this.children())) {
+            if (child instanceof WormholeArtifactButton) {
+                this.removeWidget(child);
+            }
+        }
 
-        for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, playerDataList.size()); i++) {
-            PlayerData playerData = playerDataList.get(i);
+        String searchText = searchBox.getValue().toLowerCase();
+        filteredPlayerDataList = playerDataList.stream()
+                .filter(p -> p.getPlayerName().toLowerCase().contains(searchText))
+                .toList();
+
+        if (scrollIndex >= filteredPlayerDataList.size()) {
+            scrollIndex = Math.max(0, filteredPlayerDataList.size() - 1);
+        }
+
+        for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, filteredPlayerDataList.size()); i++) {
+            PlayerData playerData = filteredPlayerDataList.get(i);
             int buttonY = startY + ((i - scrollIndex) * BUTTON_GAP);
 
             String playerName = playerData.getPlayerName();
@@ -114,12 +128,16 @@ public class WormholeArtifactScreen extends Screen {
         int titleX = centerX + (GUI_WIDTH - this.font.width(this.title.getString())) / 2;
         graphics.drawString(this.font, this.title.getString(), titleX, centerY - 16, 0xFFFFFF, false);
 
-        searchBox.render(graphics, mouseX, mouseY, partialTick);
-
         super.render(graphics, mouseX, mouseY, partialTick);
 
-        for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, playerDataList.size()); i++) {
-            PlayerData playerData = playerDataList.get(i);
+        if (searchBox.getValue().isEmpty() && !searchBox.isFocused()) {
+            graphics.drawString(this.font,
+                    Component.translatable("gui.wormhole_artifact.wormhole_artifact_screen.search_text"),
+                    searchBox.getX() + 4, searchBox.getY() + 2, 0x808080, false);
+        }
+
+        for (int i = scrollIndex; i < Math.min(scrollIndex + BUTTONS_PER_PAGE, filteredPlayerDataList.size()); i++) {
+            PlayerData playerData = filteredPlayerDataList.get(i);
             int buttonY = startY + ((i - scrollIndex) * BUTTON_GAP);
             int headX = startX + 4;
             int headY = buttonY + 4;
@@ -139,7 +157,7 @@ public class WormholeArtifactScreen extends Screen {
     public boolean mouseScrolled(double mouseX, double mouseY, double delta) {
         if (delta > 0 && scrollIndex > 0) {
             scrollIndex--;
-        } else if (delta < 0 && scrollIndex + BUTTONS_PER_PAGE < playerDataList.size()) {
+        } else if (delta < 0 && scrollIndex + BUTTONS_PER_PAGE < filteredPlayerDataList.size()) {
             scrollIndex++;
         }
         updateButtons();
@@ -153,15 +171,17 @@ public class WormholeArtifactScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (searchBox.mouseClicked(mouseX, mouseY, button)) {
-            return true;
+        if (!super.mouseClicked(mouseX, mouseY, button)) {
+            searchBox.setFocused(false);
+            return false;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return true;
     }
 
     @Override
     public boolean charTyped(char codePoint, int modifiers) {
         if (searchBox.charTyped(codePoint, modifiers)) {
+            updateButtons();
             return true;
         }
         return super.charTyped(codePoint, modifiers);
@@ -169,16 +189,12 @@ public class WormholeArtifactScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (searchBox.keyPressed(keyCode, scanCode, modifiers)) {
-            return true;
-        }
-        if (Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode)) {
+        if (Minecraft.getInstance().options.keyInventory.matches(keyCode, scanCode) && !searchBox.isFocused()) {
             this.onClose();
             return true;
         }
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
-
 
     @Override
     public boolean isPauseScreen() {
