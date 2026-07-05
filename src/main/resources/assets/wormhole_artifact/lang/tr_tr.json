@@ -3,7 +3,8 @@
 
   "item.wormhole_artifact.wormhole_artifact": "Solucan Deliği Artifaktı",
   "item.wormhole_artifact.wormhole_remote": "Solucan Deliği Kumandası",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Bir oyuncu seçin",
+  "gui.wormhole_artifact.wormhole_artifact_screen.title": "Bir oyuncu seçin",
+  "gui.wormhole_artifact.wormhole_artifact_screen.search_text": "§oAra...",
   "text.wormhole_artifact.teleported": "%s, %s'ye ışınlandı",
   "text.wormhole_artifact.player_not_found": "Oyuncu bulunamadı!",
 

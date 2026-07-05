@@ -3,7 +3,8 @@
 
   "item.wormhole_artifact.wormhole_artifact": "Wurmloch-Artefakt",
   "item.wormhole_artifact.wormhole_remote": "Wurmloch-Fernbedienung",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Wähle einen Spieler",
+  "gui.wormhole_artifact.wormhole_artifact_screen.title": "Wähle einen Spieler",
+  "gui.wormhole_artifact.wormhole_artifact_screen.search_text": "§oSuchen...",
   "text.wormhole_artifact.teleported": "%s wurde zu %s teleportiert",
   "text.wormhole_artifact.player_not_found": "Spieler nicht gefunden!",
 

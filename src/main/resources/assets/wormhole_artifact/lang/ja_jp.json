@@ -3,7 +3,8 @@
 
   "item.wormhole_artifact.wormhole_artifact": "ワームホールのアーティファクト",
   "item.wormhole_artifact.wormhole_remote": "ワームホールのリモコン",
-  "item.wormhole_artifact.wormhole_artifact_screen": "プレイヤーを選択",
+  "gui.wormhole_artifact.wormhole_artifact_screen.title": "プレイヤーを選択",
+  "gui.wormhole_artifact.wormhole_artifact_screen.search_text": "§o検索...",
   "text.wormhole_artifact.teleported": "%s が %s にテレポートしました",
   "text.wormhole_artifact.player_not_found": "プレイヤーが見つかりません！",
 

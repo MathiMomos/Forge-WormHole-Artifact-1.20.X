@@ -3,7 +3,8 @@
 
   "item.wormhole_artifact.wormhole_artifact": "Artefacto de Agujero de Gusano",
   "item.wormhole_artifact.wormhole_remote": "Control de Agujero de Gusano",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Selecciona un jugador",
+  "gui.wormhole_artifact.wormhole_artifact_screen.title": "Selecciona un jugador",
+  "gui.wormhole_artifact.wormhole_artifact_screen.search_text": "§oBuscar...",
   "text.wormhole_artifact.teleported": "%s se ha teletransportado a %s",
   "text.wormhole_artifact.player_not_found": "¡Jugador no encontrado!",
 

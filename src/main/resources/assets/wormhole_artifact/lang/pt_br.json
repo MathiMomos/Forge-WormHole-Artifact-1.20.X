@@ -3,7 +3,8 @@
 
   "item.wormhole_artifact.wormhole_artifact": "Artefato de Buraco de Minhoca",
   "item.wormhole_artifact.wormhole_remote": "Controle de Buraco de Minhoca",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Selecione um jogador",
+  "gui.wormhole_artifact.wormhole_artifact_screen.title": "Selecione um jogador",
+  "gui.wormhole_artifact.wormhole_artifact_screen.search_text": "§oBuscar...",
   "text.wormhole_artifact.teleported": "%s foi teleportado para %s",
   "text.wormhole_artifact.player_not_found": "Jogador não encontrado!",
 

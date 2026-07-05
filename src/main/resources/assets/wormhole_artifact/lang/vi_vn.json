@@ -3,7 +3,8 @@
 
   "item.wormhole_artifact.wormhole_artifact": "Tạo Vật Hố Giun",
   "item.wormhole_artifact.wormhole_remote": "Điều Khiển Hố Giun",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Chọn một người chơi",
+  "gui.wormhole_artifact.wormhole_artifact_screen.title": "Chọn một người chơi",
+  "gui.wormhole_artifact.wormhole_artifact_screen.search_text": "§oTìm kiếm...",
   "text.wormhole_artifact.teleported": "%s đã dịch chuyển đến %s",
   "text.wormhole_artifact.player_not_found": "Không tìm thấy người chơi!",
 

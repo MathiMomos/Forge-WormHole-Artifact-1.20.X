@@ -3,7 +3,8 @@
 
   "item.wormhole_artifact.wormhole_artifact": "Artefatto del Tunnel Spaziale",
   "item.wormhole_artifact.wormhole_remote": "Telecomando del Tunnel Spaziale",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Seleziona un giocatore",
+  "gui.wormhole_artifact.wormhole_artifact_screen.title": "Seleziona un giocatore",
+  "gui.wormhole_artifact.wormhole_artifact_screen.search_text": "§oCerca...",
   "text.wormhole_artifact.teleported": "%s si è teletrasportato a %s",
   "text.wormhole_artifact.player_not_found": "Giocatore non trovato!",
 

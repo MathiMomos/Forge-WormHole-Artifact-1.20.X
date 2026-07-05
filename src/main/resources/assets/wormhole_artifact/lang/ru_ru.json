@@ -3,7 +3,8 @@
 
   "item.wormhole_artifact.wormhole_artifact": "Артефакт Червоточины",
   "item.wormhole_artifact.wormhole_remote": "Пульт Червоточины",
-  "item.wormhole_artifact.wormhole_artifact_screen": "Выберите игрока",
+  "gui.wormhole_artifact.wormhole_artifact_screen.title": "Выберите игрока",
+  "gui.wormhole_artifact.wormhole_artifact_screen.search_text": "§oПоиск...",
   "text.wormhole_artifact.teleported": "%s телепортировался к %s",
   "text.wormhole_artifact.player_not_found": "Игрок не найден!",
 

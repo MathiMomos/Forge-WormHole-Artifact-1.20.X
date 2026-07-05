@@ -3,7 +3,8 @@
 
   "item.wormhole_artifact.wormhole_artifact": "虫洞神器",
   "item.wormhole_artifact.wormhole_remote": "虫洞遥控器",
-  "item.wormhole_artifact.wormhole_artifact_screen": "选择一个玩家",
+  "gui.wormhole_artifact.wormhole_artifact_screen.title": "选择一个玩家",
+  "gui.wormhole_artifact.wormhole_artifact_screen.search_text": "§o搜索...",
   "text.wormhole_artifact.teleported": "%s 已传送至 %s",
   "text.wormhole_artifact.player_not_found": "未找到玩家!",
 
