@@ -7,7 +7,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -29,11 +28,11 @@ public class TeleportToTargetMessage {
 
     public static void handle(TeleportToTargetMessage pMessage, Supplier<NetworkEvent.Context> pContextSupplier) {
         NetworkEvent.Context pContext = pContextSupplier.get();
+        ServerPlayer pServerPlayer = pContext.getSender();
         pContext.enqueueWork(() -> {
-            Player pPlayer = pContext.getSender();
-            if (pPlayer instanceof ServerPlayer pServerPlayer) {
+            if (pServerPlayer != null) {
                 ServerPlayer pTargetPlayer = pServerPlayer.getServer().getPlayerList().getPlayers().stream()
-                        .filter(player -> player.getDisplayName().getString().equals(pMessage.pTargetName))
+                        .filter(player -> player.getName().getString().equals(pMessage.pTargetName))
                         .findFirst()
                         .orElse(null);
 

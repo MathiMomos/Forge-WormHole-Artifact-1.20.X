@@ -28,15 +28,15 @@ public class PlayerListRequestMessage {
 
     public static void handle(PlayerListRequestMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
         NetworkEvent.Context context = contextSupplier.get();
+        ServerPlayer serverPlayer = context.getSender();
+        Level pLevel = serverPlayer.level();
         context.enqueueWork(() -> {
-            Level pLevel = context.getSender().level();
-            ServerPlayer serverPlayer = context.getSender();
 
             List<PlayerData> playerDataList = pLevel.getServer().getPlayerList().getPlayers().stream()
                     .filter(player -> hasWormholeArtifactsInInventory(player))
                     //.filter(player -> !player.getName().getString().equals(serverPlayer.getName().getString()))
                     .filter(player -> player.isAlive())
-                    .filter(player -> notMultidimension(serverPlayer) ? player.level() == serverPlayer.level() : true)
+                    .filter(player -> isDimensionRestricted(serverPlayer) ? player.level() == serverPlayer.level() : true)
                     .map(player -> {
                         String name = player.getName().getString();
                         String dimension = player.level().dimension().location().toString();
@@ -51,20 +51,21 @@ public class PlayerListRequestMessage {
         context.setPacketHandled(true);
     }
 
-    private static boolean hasWormholeArtifactsInInventory(Player pPlayer) {
-        for (ItemStack stack : pPlayer.getInventory().items) {
-            if (stack.getItem() == ModItems.WORMHOLE_ARTIFACT.get() || stack.getItem() == ModItems.WORMHOLE_REMOTE.get()) {
-                return true;
-            }
-        }
-        return false;
+    private static boolean isWormholeItem(ItemStack stack) {
+        return stack.getItem() == ModItems.WORMHOLE_ARTIFACT.get() || stack.getItem() == ModItems.WORMHOLE_REMOTE.get();
     }
 
-    private static boolean notMultidimension(Player pPlayer) {
+    private static boolean hasWormholeArtifactsInInventory(Player pPlayer) {
+        for (ItemStack stack : pPlayer.getInventory().items) {
+            if (isWormholeItem(stack)) return true;
+        }
+        return isWormholeItem(pPlayer.getOffhandItem());
+    }
+
+    private static boolean isDimensionRestricted(Player pPlayer) {
         ItemStack stackMain = pPlayer.getMainHandItem();
         ItemStack stackOff = pPlayer.getOffhandItem();
-        Item wormholeArtifact = ModItems.WORMHOLE_ARTIFACT.get();
 
-        return stackMain.getItem() == wormholeArtifact || stackOff.getItem() == wormholeArtifact;
+        return stackMain.getItem() == ModItems.WORMHOLE_ARTIFACT.get() || stackOff.getItem() == ModItems.WORMHOLE_ARTIFACT.get();
     }
 }
